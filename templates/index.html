@@ -4,12 +4,20 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <title>Random Unsplash Photo App</title>
+    <title>Weather</title>
 </head>
 <body>
 
-    <div style="background-image: url('{{ image_url }}'); height: 100vh; background-size: cover; background-position: center;">
+    <h1>Current Weather </h1>
+
+    {% if image_url%}
+    <div class="weather">
+        <img src="{{image_url}}">
+        <p>{{ main }} | {{ description }}</p>
     </div>
+    {% else %}
+    <p>Weather info not available.</p>
+    {% endif %}
 
 </body>
 </html>

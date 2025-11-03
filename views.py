@@ -11,16 +11,27 @@ main_blueprint = Blueprint('main', __name__)
 @main_blueprint.route('/', methods=['GET', 'POST'])
 def index():
 
-    api_key = os.environ.get('UNSPLASH_KEY')
-    api_response = requests.get('https://api.unsplash.com/photos/random?query=motivation&client_id=' + api_key)
+    print(os.environ.get("WEATHER_KEY"))
+    api_key = os.environ.get('WEATHER_KEY')
+    api_response = requests.get('https://api.openweathermap.org/data/2.5/weather?lat=14.32&lon=10.98&appid='+ api_key)
 
     if api_response.status_code == 200:
         data = api_response.json()
-        image_url = data['urls']['regular']
+        
+        icon_code = data['weather'][0]['icon']
+        description = data['weather'][0]['description']
+        main = data['weather'][0]['main']
+        
+        image_url = f"http://openweathermap.org/img/wn/" + icon_code + "@2x.png"
+        
+        
     else:
+        icon_code = None
         image_url = None
+        main = None
+        description = None
 
-    return render_template('index.html', image_url=image_url)
+    return render_template('index.html', image_url=image_url, main=main, description=description)
 
 
 
