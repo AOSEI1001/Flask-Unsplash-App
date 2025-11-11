@@ -2,6 +2,7 @@ from flask import Blueprint, render_template
 from flask import request
 import requests
 import os
+import random
 #from dotenv import load_dotenv
 #load_dotenv()
 
@@ -13,7 +14,9 @@ def index():
 
     print(os.environ.get("WEATHER_KEY"))
     api_key = os.environ.get('WEATHER_KEY')
-    api_response = requests.get('https://api.openweathermap.org/data/2.5/weather?lat=14.32&lon=10.98&appid='+ api_key)
+    lat = random.uniform(-90.0, 90.0)
+    lon = random.uniform(-180.0, 180.0)
+    api_response = requests.get(f'https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={api_key}')
 
     if api_response.status_code == 200:
         data = api_response.json()
